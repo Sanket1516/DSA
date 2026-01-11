@@ -261,7 +261,7 @@ int main()
 }
 
 
-//Remove all the occurances of the substring 
+//Remove all the occurances of the substring leetcode 1910 (medium)
 #include <iostream>
 #include<cstring>
 using namespace std;
@@ -281,6 +281,45 @@ int main(){
     removeOccurrences(main,part);
     return 0;
 }
+
+//valid palindrome 2 leetcode 680 (Easy)
+class Solution {
+public:
+
+    bool check_palindrome(string s,int i,int j){
+        while(i<=j){
+            if(s[i]!=s[j]){
+                return false;
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+
+    bool validPalindrome(string s) {
+        string new_string = s;
+        int i = 0;
+        int j = s.length()-1;
+         while(i<=j){
+            if(s[i]!=s[j]){
+                if(check_palindrome(s,i+1,j) || check_palindrome(s,i,j-1)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+};
 
 //Minimum Time difference leetcode 539 (Medium)
 #include<iostream>
