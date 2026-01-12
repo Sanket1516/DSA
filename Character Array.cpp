@@ -408,3 +408,93 @@ public:
         return digits;
     }
 };
+
+
+//Decode the message leetcode 2325 (Easy)
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        //Mapping
+        char start = 'a';
+        //All are initalized to zero first it is done to reduce the duplicate entry
+        char mapping[300] = {0};
+        for(auto ch:key){
+            //if for a particular character mapping is not done(it is seen by the zero is present there otherwise there is mapping allready done)and it is not space
+            if(ch!=' ' && mapping[ch]==0){
+            mapping[ch] = start;
+            start++;
+            }
+        }
+
+        //Decoding
+        string ans = "";
+        for(auto ch:message){
+            if(ch==' '){
+                ans.push_back(ch);
+            }
+            else{
+                ans.push_back(mapping[ch]);
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+//minium amount to collect the garbage LeetCode 2391 (Medium) 
+class Solution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) {
+        //Total garbage of each type
+        int garbageP=0;
+        int garbageG=0;
+        int garbageM=0;
+
+        //Last index where each type of garbage is present To travel only till that index
+        int lastindexP=0;
+        int lastindexG=0;
+        int lastindexM=0;
+
+        //Total travel time for each type
+        int travelP=0;
+        int travelG=0;
+        int travelM=0;
+
+        //Calculating total garbage of each type and last index where each type of garbage is present
+        for(int i =0;i<garbage.size();i++){
+            for(auto c : garbage[i]){
+                if(c == 'G'){
+                    garbageG++;
+                    lastindexG = i;
+                }
+
+                if(c == 'P'){
+                    garbageP++;
+                    lastindexP = i;
+                }
+
+                if(c == 'M'){
+                    garbageM++;
+                    lastindexM = i;
+                }
+            }
+        }
+       
+        //Calculating total travel time for each type of garbage truck
+        for(int i =0;i<lastindexG;i++){
+            travelG +=travel[i];
+        }
+
+        for(int i =0;i<lastindexP;i++){
+            travelP +=travel[i];
+        }
+
+        for(int i =0;i<lastindexM;i++){
+            travelM +=travel[i];
+        }
+
+        //The sumation of time required to collect all garbage plus the time required to pick all the garbage by each truck
+        return (travelP+garbageP)+(travelG+garbageG)+(travelM+garbageM);
+        }
+};
