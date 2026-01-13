@@ -498,3 +498,35 @@ public:
         return (travelP+garbageP)+(travelG+garbageG)+(travelM+garbageM);
         }
 };
+
+
+//Custom Sort String LeetCode 791 (Medium)
+class Solution {
+public:
+    string customSortString(string order, string s) {
+        int freq[26] = {0};
+        string ans="";
+        //mapping the characters from o - 1 as a starts from zero if we minus a
+        for(auto ch:s){
+            freq[ch-'a']++;
+        }
+
+        //now adding all the charecters which come sin order first
+        for(auto ch : order){
+            while(freq[ch-'a']>0){
+                ans += ch;
+                freq[ch-'a']--;
+            }
+        }
+
+        //now put rest of the all charecters in the string as they are
+        for(int i =0;i<26;i++){
+            while(freq[i]>0){
+                ans += char(i+'a');
+                freq[i]--;
+            }
+        }
+
+        return ans;
+    }
+};
