@@ -530,3 +530,45 @@ public:
         return ans;
     }
 };
+
+//Find and Replace Pattern LeetCode 890 (Medium)
+class Solution {
+public:
+     void createPatten(string& s){
+     char start = 'a';
+        char table[26] = {0}; //to store mapping of characters because we will scale or index in the form of 0,1,2,3...
+        for(auto ch : s){
+            //ch-a beacuse we have to store in the form of 0,1,2,3...eg a->0,b->1,c->2... (a = 97 in ascii - 97 = 0 b= 98 - 97 = 1)
+            //just to remember to return that specific character we have to add 'a' again egc char(ch+'a');
+            if(table[ch-'a']==0){
+                table[ch-'a'] = start++;
+            }
+        }
+
+        for(int i=0;i<s.length();i++){
+            s[i] = table[s[i]-'a'];
+        }
+    }
+
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        //The variable to store the original string that we have to return
+        //as it will be modified in the createPatten function
+       string to_return = "";
+       //array to store the final result and return it
+       vector<string>arr;
+       //Creating pattern for the given pattern string normalizing both the strings i the format of abc..
+       createPatten(pattern);
+       //Now checking for each string in the words array
+       for(string s : words){
+        //storing the original string
+        to_return = s;
+        //creating pattern for the current string
+        createPatten(s);
+        //if both the patterns match then we will push the original string to the result array
+        if(s==pattern){
+            arr.push_back(to_return);
+        }
+       }
+       return arr;
+    }
+};
