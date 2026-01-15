@@ -409,7 +409,6 @@ public:
     }
 };
 
-
 //Decode the message leetcode 2325 (Easy)
 class Solution {
 public:
@@ -439,8 +438,6 @@ public:
         return ans;
     }
 };
-
-
 
 //minium amount to collect the garbage LeetCode 2391 (Medium) 
 class Solution {
@@ -570,6 +567,25 @@ public:
         }
        }
        return arr;
+    }
+};
+
+//remove all adjacent duplicates in string LeetCode 1047 (Easy)
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        int i =0;
+        string ans="";
+        while(i<s.length()){
+            if(ans.length()>0 && ans[ans.length()-1]==s[i]){
+                ans.pop_back();
+            }
+            else{
+                ans.push_back(s[i]);
+            }
+            i++;
+        }
+        return ans;
     }
 };
 
