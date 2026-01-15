@@ -572,3 +572,78 @@ public:
        return arr;
     }
 };
+
+//remove all adjacent duplicates in string II LeetCode 1209 (Medium)
+//own logic
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+        string new_string = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s[i];
+
+            // If we have at least k-1 characters to compare
+            if (new_string.length() >= k - 1) {
+                bool flag = true;
+
+                // Check last k-1 characters
+                for (int j = 0; j < k - 1; j++) {
+                    if (new_string[new_string.length() - 1 - j] != ch) {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                // If k consecutive characters found
+                if (flag) {
+                    for (int j = 0; j < k - 1; j++) {
+                        new_string.pop_back();
+                    }
+                } else {
+                    new_string.push_back(ch);
+                }
+            } 
+            else {
+                new_string.push_back(ch);
+            }
+        }
+
+        return new_string;
+    }
+};
+//optimized approach 
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+        string new_string = "";
+        vector<int> count;   // stores consecutive counts
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s[i];
+            //if current charecter is same as last one then increase the count and if also new_string is not empty
+            if (!new_string.empty() && new_string.back() == ch) {
+                count.back()++;
+            } 
+            //if different charecter then push it to the new_string and initialize its count to 1
+            else {
+                new_string.push_back(ch);
+                count.push_back(1);
+            }
+            //if the same charecter count reaches k then we have to remove it from the new_string and also pop its count from the count array
+            if (count.back() == k) {
+                new_string.pop_back();
+                count.pop_back();
+            }
+        }
+
+        // rebuild final string
+        string ans = "";
+        for (int i = 0; i < new_string.length(); i++) {
+            //append the current character count[i] times to the ans string 
+            ans.append(count[i], new_string[i]);
+        }
+
+        return ans;
+    }
+};
