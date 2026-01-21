@@ -108,3 +108,65 @@ int main(){
     cout<<"The max of the given numbers is "<<max(arr,size);
     return 0;
 }
+
+//most imp patters think to reduce the repeteded calculations
+
+//leetcode 2574. Left and Right Sum Differences (Easy)
+class Solution {
+public:
+    vector<int> leftRightDifference(vector<int>& nums) {
+        int s = nums.size();
+        vector<int>left_sum(s);
+        vector<int>right_sum(s);
+        vector<int>ans(s,0);
+        if(s == 1){
+            return ans;
+        }
+        //everytime the leftmost element will have 0 sum on left side and rightmost element will have 0 sum on right side
+        left_sum[0] = 0;
+        right_sum[s-1] = 0;
+
+        //prefix sum for left sum array and suffix sum for right sum array
+        //left element left some as it is not present in the in its own sum + that element value
+        for(int i = 1;i<s;i++){
+            left_sum[i] = left_sum[i-1] + nums[i-1];
+        }
+        //right element right sum as it is not present in its own sum + that element value
+        for(int j = s-2;j>=0;j--){
+            right_sum[j] = right_sum[j+1] + nums[j+1];
+        }
+        //final ans array will be abs diff of left sum and right sum
+        for(int k = 0;k<s;k++){
+            ans[k] = abs(left_sum[k] - right_sum[k]);
+        }
+
+        return ans;
+    }
+};
+
+//leetcode 1365. How Many Numbers Are Smaller Than the Current Number (Easy)
+class Solution {
+public:
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+        vector<int>freq(101,0);
+        //count the number of all elements
+        for(auto x :nums){
+            freq[x]++;
+        }
+
+        //as we are gooing from smaller to larger value we will add all the number counts which occur before them
+        int running = 0;
+        for(int i =0;i<101;i++){
+            int count = freq[i];
+            freq[i] = running;
+            running = running+count;
+        }
+
+        for(int i =0;i<nums.size();i++){
+            nums[i] = freq[nums[i]];
+        }
+
+        return nums;
+    }
+};
+    
