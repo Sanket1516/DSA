@@ -169,4 +169,48 @@ public:
         return nums;
     }
 };
-    
+
+//kadane algorithmn LeetCode 53 Max imum Subarray (Medium)
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxi = INT_MIN;
+        int sum = 0;
+        for(int i =0;i<nums.size();i++){
+            sum+=nums[i];
+            if(sum>maxi){
+                maxi=sum;
+            }
+            if(sum<0){
+                sum=0;
+            }
+        }
+        return maxi;
+    }
+};
+
+//if asked give that subarray also
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxi = INT_MIN;
+        int sum = 0;
+        //to store the starting and ending index of the maximum subarray
+        int start =0;
+        int end =0;
+        for(int i =0;i<nums.size();i++){
+            sum+=nums[i];
+            //whenver we are getting the maximum sum we will update the ending index to current index
+            if(sum>maxi){
+                maxi=sum;
+                end = i;
+            }
+            //whenever we are getting the zero means we are starting fresh subarray from next index
+            if(sum<0){
+                sum=0;
+            }
+        }
+        return maxi;
+    }
+};
+
