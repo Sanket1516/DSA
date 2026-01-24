@@ -663,3 +663,35 @@ public:
         return ans;
     }
 };
+
+//Longest Substring Without Repeating Characters LeetCode 3 (Medium)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        //craeting a pos array to store the last index of the character 
+        //initialized to -1 as initially no character is present
+        vector<int>pos(256,-1);
+        //using sliding window approach
+        int left = 0;
+        int right = 0;
+        int maxlen = 0;
+        //the right pointer will move ahead in each iteration
+        //the left pointer will move only when a repeating character is found in the current window
+        while(right<s.length()){
+            //if the charecter is occured before and its index is in the current window
+            if(pos[s[right]]!=-1 && pos[s[right]]>=left){
+                //move the left pointer to the next index then the last occured index of the current charecter
+                left = pos[s[right]]+1;
+            }
+            //calculate the length of the current window
+            int len = (right-left)+1;
+            //update the maxlen if current length is greater
+            maxlen = max(len,maxlen);
+            //update the last occured index of the current charecter
+            pos[s[right]] = right;
+            //move the right pointer ahead
+            right++;
+        }
+        return maxlen;
+    }
+};
