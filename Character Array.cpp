@@ -695,3 +695,37 @@ public:
         return maxlen;
     }
 };
+
+
+//Longest Common Prefix LeetCode 14 (Easy)
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        //Most Imp Edge Cases
+        if(strs.size()==1){
+            return strs[0];
+        }
+        if(strs.size() == 0){
+            return "";
+        }
+
+        //sort the strings in alpahbetical order
+        sort(strs.begin(),strs.end());
+        //as if there is something common in all the strings we just have to compare the first and last string after sorting
+        string s1 = strs[0];
+        string s2 = strs[strs.size()-1];
+        string ans="";
+        int max =min(s1.length(),s2.length());
+        int i =0;
+        while(i<max){
+            if(s1[i]==s2[i]){
+                ans+=s1[i];
+            }
+            else{
+                break;
+            }
+            i++;
+        }
+        return ans;
+    }
+};

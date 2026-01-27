@@ -208,6 +208,7 @@ public:
             //whenever we are getting the zero means we are starting fresh subarray from next index
             if(sum<0){
                 sum=0;
+                start = i+1;
             }
         }
         return maxi;
