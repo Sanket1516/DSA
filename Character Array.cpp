@@ -751,3 +751,62 @@ public:
         return s;
     }
 };
+
+//rearrange string LeetCode 767 (Medium) Pattren = storing frequency
+class Solution {
+public:
+    string reorganizeString(string s) {
+        int n = s.length();
+        //calculating frequency of each character
+        vector<int> freq(26, 0);
+
+        for (char ch : s) {
+            freq[ch - 'a']++;
+        }
+
+        //finding the character with maximum frequency and also the maximum frequency value
+        int max_freq = 0;
+        int max_char = 0;
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] > max_freq) {
+                max_freq = freq[i];
+                max_char = i;
+            }
+        }
+
+        //frequency should not be more than (n+1)/2 else it is not possible to rearrange
+        if (max_freq > (n + 1) / 2) {
+            return "";
+        }
+
+        vector<char> ans(n);
+        int idx = 0;
+
+        //placing the character with maximum frequency at even indices first
+        while (freq[max_char] > 0) {
+            ans[idx] = char(max_char + 'a');
+            idx += 2;
+            freq[max_char]--;
+        }
+
+
+        //placing the rest of the characters
+        for (int i = 0; i < 26; i++) {
+            while (freq[i] > 0) {
+                //if even indices are filled then start placing at odd indices
+                if (idx >= n) idx = 1;  
+                ans[idx] = char(i + 'a');
+                idx += 2;
+                freq[i]--;
+            }
+        }
+
+        //converting the character array to string
+        string to_return = "";
+        for (int i = 0; i < ans.size(); i++) {
+            to_return += ans[i];
+        }
+
+        return to_return;
+    }
+};
