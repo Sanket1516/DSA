@@ -810,3 +810,63 @@ public:
         return to_return;
     }
 };
+
+
+//Group Anagram LeetCode 49 (Medium)
+//We have two approaches one is sorting and other is counting frequency
+
+//Sorting approach //TC : O(N*KlogK) where N is the number of strings and K is the maximum length of string
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        //here the map key will be the sorted string and value will be the list of anagrams
+        //as we are sorting the string all anagrams will result in same sorted string
+        unordered_map<string, vector<string>> ans;
+        for (string& s : strs) {
+            string key = s;
+            sort(key.begin(), key.end());
+            ans[key].push_back(s);
+        }
+        vector<vector<string>> result;
+        for (auto& entry : ans) {
+            result.push_back(entry.second);
+        }
+
+        return result;        
+    }
+};
+
+//Counting frequency approach //TC : O(N*K) where N is the number of strings and K is the maximum length of string
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // map: frequency-string -> list of anagrams
+        //as they are anagrams they will have same frequency of characters
+        //so map key will be frequency of characters in string seperated by #
+        //eg : "abb" -> "0#1#2#0#0#...#" (frequency of a is 0,b is 2,c is 0 and so on)
+        //and value will be the list of strings which have same frequency pattern
+        unordered_map<string, vector<string>> mp;
+        for (string s : strs) {
+            // frequency of characters
+            vector<int> freq(26, 0);
+            for (char ch : s) {
+                freq[ch - 'a']++;
+            }
+            // build frequency key
+            string key = "";
+            for (int i = 0; i < 26; i++) {
+                key += to_string(freq[i]) + "#";
+            }
+            mp[key].push_back(s);
+        }
+        // prepare answer from the map 
+        vector<vector<string>> ans;
+        for (auto it : mp) {
+            //it.first is the key and it.second is the value
+            ans.push_back(it.second);
+        }
+        return ans;
+    }
+};
+
+
