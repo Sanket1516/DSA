@@ -869,4 +869,30 @@ public:
     }
 };
 
+//Find the index of the first occurance in the string Leetcode 28 (Easy)
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int n = haystack.length();
+        int m = needle.length();
+
+        if(m == 0) return 0;
+        //Go till n-m position only as after that needle will not fit in haystack
+        for(int i = 0; i <= n - m; i++){
+            bool flag = true;
+            //check if needle is present at position i
+            for(int j = 0; j < m; j++){
+                //i+j because we have to check needle[j] with haystack[i+j] it will access the charecter from the start respective j
+                if(haystack[i + j] != needle[j]){
+                    flag = false;
+                    break;
+                }
+            }
+
+            if(flag) return i;
+        }
+        return -1;
+    }
+};
+
 
