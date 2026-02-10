@@ -1,5 +1,4 @@
-#include<iostream>
-using namespace std;
+
 int main(){
     char ch[100];
     ch = "Sanket";
@@ -7,8 +6,7 @@ int main(){
     return 0;
 }
 //After Spaces tyhe cin stops to read so getline function for that
-#include<iostream>
-using namespace std;
+
 int main(){
     char ch[100];
     cin.getline(ch,100);
@@ -18,8 +16,6 @@ int main(){
 
 //Quiz
 //Create  a array of lenght 50;
-#include<iostream>
-using namespace std;
 int main(){
 char arr[50];
 cin>>arr[2];
@@ -33,8 +29,7 @@ cout<<arr;
 //Questions
 //NO library is used
 //NUmber of chaeracters in the string
-#include<iostream>
-using namespace std;
+
 int main(){
     char ch[100];
     cin.getline(ch,100);
@@ -48,9 +43,6 @@ int main(){
 }
 //With functions
 //library is used called cstrings
-#include<iostream>
-#include<cstring>
-using namespace std;
 int main(){
     char ch[100];
     cin.getline(ch,100);
@@ -58,8 +50,7 @@ int main(){
     return 0;
 }
 //Reverse a string
-#include<iostream>
-using namespace std;
+
 int main(){
    char arr[100];
    cin.getline(arr,100);
@@ -75,8 +66,6 @@ int main(){
 }
 //in a array
 //Reverse a string
-#include<iostream>
-using namespace std;
 int main(){
    char arr[100];
    cin.getline(arr,100);
@@ -96,8 +85,6 @@ int main(){
 return 0;
 }
 //Replace spaces with the @
-#include<iostream>
-using namespace std;
 int main(){
    char arr[100];
    cin.getline(arr,100);
@@ -112,8 +99,6 @@ cout<<arr;
 return 0;
 }
 //Palindrome without using the additional array
-#include<iostream>
-using namespace std;
 int main(){
    char arr[100];
    cin.getline(arr,100);
@@ -142,9 +127,6 @@ else{
 return 0;
 }
 //lower to upper with all test cases
-#include <iostream>
-#include<cstring>
-using namespace std;
 checkupperto(char arr[]){
     int sizeo = strlen(arr);
     for(int i =0;i<sizeo;i++){
@@ -169,9 +151,6 @@ int main(){
 
 
 //upper to lower with all test cases
-#include <iostream>
-#include<cstring>
-using namespace std;
 checkupperto(char arr[]){
     int sizeo = strlen(arr);
     for(int i =0;i<sizeo;i++){
@@ -199,8 +178,6 @@ int main(){
 
 //Strings
 //Compare two strings  
-#include <iostream>
-using namespace std;
 bool compare(string a,string b){
     int i =0;
     int j =0;
@@ -232,9 +209,6 @@ int main()
 }
 //Leetcode
 //remove same adjacent characters 
-#include <iostream>
-#include<cstring>
-using namespace std;
 string ans(string ans){
     string temp="";
     for(int i =0;i<ans.length();i++){
@@ -262,9 +236,6 @@ int main()
 
 
 //Remove all the occurances of the substring leetcode 1910 (medium)
-#include <iostream>
-#include<cstring>
-using namespace std;
 string removeOccurrences(string s, string part) {
         int pos = s.find(part);
         while(pos!=string::npos){
@@ -285,7 +256,6 @@ int main(){
 //valid palindrome 2 leetcode 680 (Easy)
 class Solution {
 public:
-
     bool check_palindrome(string s,int i,int j){
         while(i<=j){
             if(s[i]!=s[j]){
@@ -896,3 +866,34 @@ public:
 };
 
 
+//Zigzag Conversion Leetcode 6 (Medium)
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        //Edge Case or Base case
+        if(numRows == 1 || numRows>=s.length()){
+            return s;
+        }
+
+        //Creating number of rows array of string to store each row charecters
+        vector<string>rows(numRows);
+        int currRow = 0;
+        bool going_down = false;
+        //Adding charecters that each row should consist 
+        for(auto ch : s){
+            rows[currRow]+=ch;
+            if(currRow == 0 || currRow ==numRows-1){
+                going_down = !going_down;
+            }
+            currRow+=(going_down)?1:-1;
+        }
+
+        //At last concat the all rows
+        string result = "";
+        for(string row : rows){
+            result += row;
+        }
+
+        return result;
+    }
+};
