@@ -897,3 +897,46 @@ public:
         return result;
     }
 };
+
+//Leetcode 179 (Medium) Largest Number
+class Solution {
+public:
+
+    //Custom comparator to sort the numbers in such a way that when concatenated they form the largest number
+    //if first eklement and second element combines gives good result then let them as it is otherwise swap them
+    static bool myComp(string a , string b){
+        return a+b > b+a;
+    }
+    string largestNumber(vector<int>& nums) {
+        vector<string>arr;
+
+        //why we converted to string because as we have to keep the numbers as it is if we do as numbers our result will always get ame number but we want the concating get largest number
+        // a = 3
+        // b = 30
+
+        // a + b = 33
+        // b + a = 33
+
+        // after cnverting to string we can compare the concatenated result and decide the order of a and b
+        // "3" + "30" = "330"
+        // "30" + "3" = "303"
+
+        for(int i =0;i<nums.size();i++){
+            arr.push_back(to_string(nums[i]));
+        }
+
+        sort(arr.begin(),arr.end(),myComp);
+
+        if(arr[0]=="0"){
+            return "0";
+        }
+
+        string to_return = "";
+
+        for(int i =0;i<arr.size();i++){
+            to_return += arr[i];
+        }
+
+        return to_return;
+    }
+};
