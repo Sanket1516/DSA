@@ -940,3 +940,59 @@ public:
         return to_return;
     }
 };
+
+//Most IMP Bit manupulation (Medium) Leetcode 1404 Number of Steps to Reduce a Number in Binary Representation to One
+//First Approach classical like at end if there is 1 then the number is definately odd(make all 1 to zero till we get 0 from right to left then make that zero 1) else it is even and we can divide by 2(remove last bit)
+
+
+class Solution {
+public:
+    static void(string& s){
+        int i = s.length()-1;
+        while(i>=0 && s[i]=='1'){
+            s[i]='0';
+            i--;
+        }
+        if(i>=0){
+            s[i]='1';
+        }
+        //if all becomes zero append one at last
+        else{
+            s='1'+s;
+        }
+    }
+    int numSteps(string s) {
+        int steps = 0;
+        while(s!="1"){
+            if(s[s.length()-1]=='0'){
+                s.pop_back();
+            }
+            else{
+                addOne(s);
+            }
+            steps++;
+        }
+        return steps;
+    }
+};
+
+
+//Optimized approach in notebook
+
+class Solution {
+public:
+    int numSteps(string s) {
+        int carry = 0;
+        int sum = 0;
+        for(int i =(s.size()-1);i>0;i--){
+            if((s[i]-'0' + carry)%2 == 1){
+                sum +=2;
+                carry = 1;
+            }
+            else{
+                sum+=1;
+            }
+        }
+        return sum+carry;
+    }
+};
