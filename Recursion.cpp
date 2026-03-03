@@ -185,3 +185,98 @@ int main(){
     }
     return 0;
 }
+
+//Pattern 2 explore all possible ways or path
+//Que 1 Maximize the number of segments of length x, y and z
+int maximizeSegments(int n, int x, int y, int z){
+    if(n == 0){
+        return 0;
+    }
+    if(n < 0){
+        return INT_MIN;
+    }
+
+    int ans = INT_MIN;
+    int option1 = maximizeSegments(n-x, x, y, z);
+    int option2 = maximizeSegments(n-y, x, y, z);
+    int option3 = maximizeSegments(n-z, x, y, z);
+
+    int ans = max(option1, max(option2, option3));
+
+    retrun ans;
+}
+int main(){
+    int n, x, y, z;
+    cin>>n>>x>>y>>z;
+    int ans = maximizeSegments(n, x, y, z);
+    if(ans == INT_MIN){
+        cout<<"Not possible to cut the rope into segments of given lengths."<<endl;
+    }
+    else{
+        cout<<"Maximum number of segments: "<<ans<<endl;
+    }
+    return 0;
+}
+
+//Que 2 Leetcode 322 Coin Change Not solved yet can be solved using dp
+class Solution {
+public:
+    static int solve(vector<int>& coins, int amount) {
+        // Base Case
+        if (amount == 0) {
+            return 0;
+        }
+        if (amount < 0) {
+            return INT_MAX;
+        }
+        int to_return_ans = INT_MAX;
+        // processing
+        for (int i = 0; i < coins.size(); i++) {
+            int coin_value = coins[i];
+
+            if (coin_value <= amount) {
+                int final_ans = solve(coins, amount - coin_value);
+                if (final_ans != INT_MAX) {
+                    int ans = 1 + final_ans;
+                    to_return_ans = min(to_return_ans, ans);
+                }
+            }
+        }
+        return to_return_ans;
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int ans = solve(coins, amount);
+        if (ans == INT_MAX) {
+            return -1;
+        } else {
+            return ans;
+        }
+    }
+};
+
+//Que 3 Leetcode 198 House Robber Not solved yet can be solved using dp
+class Solution {
+public:
+    static int solve(vector<int>& nums,int size,int index){
+        
+        if(index >= size){
+            return 0;
+        }
+
+        //we rob first house
+        int ans1 = nums[index] + solve(nums,size,index+2);
+
+        //we not first house
+        int ans2 = 0 + solve(nums,size,index+1);
+
+        return max(ans1,ans2); 
+    }
+    int rob(vector<int>& nums) {
+     //to call reccursion we need three values arr of nums , size , index 
+     // so we will call new function and get value from there
+     int size = nums.size();
+     int index = 0;
+     int ans = solve(nums,size,index);
+     return ans;   
+    }
+};
