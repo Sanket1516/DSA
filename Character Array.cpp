@@ -996,3 +996,58 @@ public:
         return sum+carry;
     }
 };
+
+
+//basic code of sliding window
+        int i =0;
+        int j =0;
+        while(j<s2.length()){
+            //operatiion and updation
+
+            //the window check shirink or exppand
+            if(j-i+1>s1.length()){
+                s2_freq[s2[i]-'a']--;
+                i++;
+            }
+            j++;
+        }
+
+//Leetcode 567 Pemutaion in string
+
+//logic we will keep two freq arrays and will update that if it is in windoe then add its freq if leaves ten remove its freq count
+//the j will go ahead j will increament count when added in window i will leave count when removed from window
+//if both the window matches then return true else false
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        if (s1.length() > s2.length()){
+            return false;
+        }
+        
+        vector<char>s1_freq(26,0);
+        vector<char>s2_freq(26,0);
+
+        for(auto ch : s1){
+           s1_freq[ch-'a']++;
+        }
+
+        int i =0;
+        int j =0;
+
+        while(j<s2.length()){
+            s2_freq[s2[j]-'a']++;
+
+            if(j-i+1>s1.length()){
+                s2_freq[s2[i]-'a']--;
+                i++;
+            }
+
+            if(s1_freq == s2_freq){
+                return true;
+            }
+
+            j++;
+        }
+        return false;
+    }
+};
