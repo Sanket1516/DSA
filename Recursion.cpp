@@ -280,3 +280,120 @@ public:
      return ans;   
     }
 };
+
+
+
+
+//Rat Maze Problem with back tracking
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+
+
+bool isSafe(int posx,int posy,int row,int col,vector<vector<bool>>&visited,int maze[][4]){
+    if(
+        (posx>=0 && posx<row) && (posy>=0 && posy < col) &&
+        (visited[posx][posy] == false) &&
+        (maze[posx][posy] == 1) 
+    ){
+        return true;
+    }
+
+    return false;
+}
+
+
+void allpossiblepaths(int maze[][4],int sorceposx,int sorceposy,vector<vector<bool>>&visited,int row,int col,string path){
+
+
+    //Base case
+    if(sorceposx == row-1 && sorceposy == col-1){
+        cout<<path<<endl;
+        return;
+    }
+
+int newx=0;
+int newy=0;
+//Up
+newx = sorceposx-1;
+newy = sorceposy;
+
+if(isSafe(newx,newy,row,col,visited,maze)){
+visited[newx][newy] = true;
+path.push_back('U');
+//Reccursive relation
+allpossiblepaths(maze,newx,newy,visited,row,col,path);
+//Backtracking
+visited[newx][newy] = false;
+path.pop_back();
+}
+
+
+
+//Down
+newx = sorceposx+1;
+newy = sorceposy;
+
+if(isSafe(newx,newy,row,col,visited,maze)){
+visited[newx][newy] = true;
+path.push_back('D');
+//Reccursive relation
+allpossiblepaths(maze,newx,newy,visited,row,col,path);
+//Backtracking
+visited[newx][newy] = false;
+path.pop_back();
+}
+
+//Left 
+newx = sorceposx;
+newy = sorceposy-1;
+
+if(isSafe(newx,newy,row,col,visited,maze)){
+visited[newx][newy] = true;
+path.push_back('L');
+//Reccursive relation
+allpossiblepaths(maze,newx,newy,visited,row,col,path);
+//Backtracking
+visited[newx][newy] = false;
+path.pop_back();
+}
+
+//Right
+newx = sorceposx;
+newy = sorceposy+1;
+
+if(isSafe(newx,newy,row,col,visited,maze)){
+visited[newx][newy] = true;
+path.push_back('R');
+//Reccursive relation
+allpossiblepaths(maze,newx,newy,visited,row,col,path);
+//Backtracking
+visited[newx][newy] = false;
+path.pop_back();
+}
+}
+
+
+int main(){
+    int maze [][4] = {
+        {1,1,1,1},
+        {1,1,1,1},
+        {0,1,0,1},
+        {1,1,0,1}
+    };
+
+    int row = 4;
+    int col = 4;
+
+    vector<vector<bool>>viseted(4,vector<bool>(4,false));
+
+    int sorceposx = 0;
+    int sorceposy = 0;
+
+    string path = "";
+
+    viseted[sorceposx][sorceposy]=true;
+    allpossiblepaths(maze,sorceposx,sorceposy,viseted,row,col,path);
+}
