@@ -397,3 +397,122 @@ int main(){
     viseted[sorceposx][sorceposy]=true;
     allpossiblepaths(maze,sorceposx,sorceposy,viseted,row,col,path);
 }
+
+//count Total Diarrangement
+class Solution {
+  public:
+    int solve(int n){
+        if(n==1){
+            return 0;
+        }
+        if(n==2){
+            return 1;
+        }
+        
+        return (n - 1) * (solve(n - 1) + solve(n - 2));
+    }  
+  
+    int derangeCount(int n) {
+        return solve(n);
+    }
+};
+
+
+//Color Fencing 
+class Solution {
+  public:
+    int solve(int n , int k){
+        if(n==1){
+            return k;
+        }
+        if(n==2){
+            return (k)+(k*(k-1));
+        }
+        
+        return (k-1)*(solve(n-1,k)+solve(n-2,k));
+    }
+    int countWays(int n, int k) {
+        return solve(n,k);
+    }
+};
+
+//Maximum square leetcode 221
+class Solution {
+public:
+
+    //BC When we reach out of the matrix then we will return 0 because we cannot form a square with out of bound index
+    int solve(vector<vector<char>>& matrix,int i ,int j,int row,int col,int& ans){
+        if(i>=row || j>=col){
+            return 0;
+        }
+
+        //recursive relation
+        //for right , diagonal and down we will call the solve function and get the value of the maximum square that can be formed from those positions
+        //right
+        int right = solve(matrix,i,j+1,row,col,ans);
+        //diagonal
+        int diagonal = solve(matrix,i+1,j+1,row,col,ans);
+        //down 
+        int down = solve(matrix,i+1,j,row,col,ans);
+
+        //processing
+        //if the current position is 1 then we can form a square of size 1 + minimum of right , diagonal and down because we can only form a square if all three positions are 1
+        if(matrix[i][j]=='1'){
+            int mini = 1+ min(right,min(down,diagonal));
+            //store the maximum square that can be formed in the ans variable
+            ans = max(ans,mini);
+            return mini;
+        }
+        else{
+            return 0;
+        }
+        return ans;
+    }
+
+
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int i = 0;
+        int j = 0;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int ans = 0;
+        solve(matrix,i,j,row,col,ans);
+        return ans*ans;
+    }
+};
+
+
+//edit distance leetcode 72
+class Solution {
+public:
+
+    int solve(int i , int j,string& word1,string& word2,int ans){
+        if(i>=word1.length()){
+            return word2.length()-j;
+        }
+        else if(j>=word2.length()){
+            return word1.length()-i;
+        }
+
+        if(word1[i]==word2[j]){
+        ans = 0+solve(i+1,j+1,word1,word2,ans);
+        }
+        
+        else{
+        int insert = 1+solve(i,j+1,word1,word2,ans);
+        int del = 1+solve(i+1,j,word1,word2,ans);
+        int update = 1+solve(i+1,j+1,word1,word2,ans);
+        
+        ans = min(insert,min(del,update));
+        }
+        return ans;
+    }
+
+    int minDistance(string word1, string word2) {
+        int i = 0;
+        int j = 0;
+        int sub = 0;
+        int ans=solve(i , j , word1 , word2,sub);
+        return ans;
+    }
+};
