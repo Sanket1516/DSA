@@ -516,3 +516,37 @@ public:
         return ans;
     }
 };
+
+
+//Quick Sort using recursion
+class Solution {
+  public:
+    void quickSort(vector<int>& arr, int start, int end) {
+        // code here
+        //Base Case
+        if(start>=end){
+            return;
+        }
+        
+        //Partition
+        
+        int pivot = end;
+        int i = start-1;
+        int j = start;
+        
+        while(j<pivot){
+            if(arr[j]<arr[pivot]){
+                i++;
+                swap(arr[j],arr[i]);
+            }
+            j++;
+        }
+        
+        i++;
+        swap(arr[i],arr[pivot]);
+        
+        //Recursive Relation
+        quickSort(arr,start,i-1);
+        quickSort(arr,i+1,end);
+    }
+};
