@@ -381,7 +381,42 @@ int main(){
 | `<=`     | Less Equal     |
 | `>=`     | Greater Equal  |
 | `&&`     | Logical AND    |
-| `\|\|`   | Logical OR     |
+| `||`     | Logical OR     |
 | `<<`     | Left Shift     |
 | `>>`     | Right Shift    |
 | `^`      | XOR            |
+
+
+//Friend Keyword
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+class A{
+    int x;
+    public:
+    A(int _x):x(_x){};
+    friend class B;
+    friend void print(A & a);
+    
+};
+
+class B{
+    public:
+    void print(A& a){
+        cout<<a.x<<endl;
+    }
+};
+
+void print(A&a){
+    cout<<"From Fuction : "<<endl;
+    cout<<a.x<<endl;
+}
+
+int main() {
+    
+    A a(5);
+    B b;
+    b.print(a);
+    print(a);
+    return 0;
+}
