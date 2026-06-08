@@ -334,6 +334,19 @@ class Node{
                 
         
         else{
+
+        if(pos == 1){
+            deletefromHead(head,tail);
+            return;
+        }
+
+        else if(pos == Size(head)){
+            deletefromTail(head,tail);
+            return;
+        }
+
+        else{
+        
         Node* curr = head;
         Node* prev = NULL;
         while(pos!=1){
@@ -343,6 +356,7 @@ class Node{
         }
         prev->next = curr->next;
         delete curr;
+        }
         }
     }
     
@@ -393,5 +407,126 @@ int main() {
     // printList(head);
     deletefromMiddle(head,4,tail);
     printList(head);
+    return 0;
+}
+
+//Doubly Linked List
+
+#include <iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* prev;
+        Node* next;
+
+        Node(){
+            this->prev = NULL;
+            this->next = NULL;
+        }
+
+        Node(int data){
+            this->prev = NULL;
+            this->next = NULL;
+            this->data = data;
+        }
+};
+
+int LLength(Node* head){
+    Node* temp = head;
+    int count = 0;
+    while(temp != NULL){
+        count ++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+void Print(Node* head){
+    Node* temp = head;
+    while(temp != NULL){
+        cout<<temp->data<<"->";
+        temp = temp->next;
+    }
+    cout<<endl;
+}
+
+void insertAtHead(Node*& head, Node*& tail , int pos,int data){
+    Node* temp = head;
+    Node* newNode = new Node(data);
+    newNode->next = temp;
+    temp->prev = newNode;
+    head = newNode;
+}
+
+void insertAtTail(Node*& head,Node*& tail , int pos,int data){
+    Node* newNode = new Node(data);
+    tail->next = newNode;
+    newNode->prev = tail;
+    tail = newNode;
+}
+
+void insertAtPos(Node*& head, Node*& tail , int pos,int data){
+    //List Empty
+    if(head == NULL){
+        Node* newNode = new Node(data);
+        head = newNode;
+        tail = newNode;
+        return;
+    }
+    //List Full
+    else{
+        if(pos == 1){
+            insertAtHead(head,tail,pos,data);
+            return;
+        }
+
+        else if(pos == LLength(head)+1){
+            insertAtTail(head,tail,pos,data);
+            return;
+        }
+        else{
+            Node* newNode = new Node(data);
+            Node* prev = NULL;
+            Node* curr = head;
+
+            while(pos != 1){
+                prev = curr;
+                curr = curr->next;
+                pos--;
+            }
+
+            prev->next = newNode;
+            newNode->prev = prev;
+            newNode->next = curr;
+            curr->prev = newNode;
+            return;
+        }
+    }
+}
+
+//Insertion in doubly Linked List
+int main(){
+    Node* head = NULL;
+    Node* tail = NULL;
+    
+    insertAtPos(head,tail,1,20);
+    Print(head);
+
+    insertAtPos(head,tail,1,10);
+    Print(head);  
+
+    insertAtPos(head,tail,1,5);
+    Print(head);  
+    
+    insertAtPos(head,tail,3,15);
+    
+    Print(head); 
+    
+    insertAtPos(head,tail,5,100);
+    
+    Print(head);     
+
     return 0;
 }
