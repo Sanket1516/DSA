@@ -601,3 +601,143 @@ public:
         return head;
     }
 };
+
+//LEETCODE 876 Middle Node of Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+
+int sizeo(ListNode* head){
+    int count = 0;
+    ListNode* temp = head;
+    while(temp!=NULL){
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+void findMiddle(ListNode*& head,int middle){
+    ListNode* temp = head;
+    while(middle!=0){
+        temp = temp->next;
+        middle --;
+    }
+    head = temp;
+}
+
+public:
+    ListNode* middleNode(ListNode* head) {
+        int len = sizeo(head);
+        int middle = (len/2);
+        findMiddle(head,middle);
+        return head;
+    }
+};
+
+//Using slow and fast pointer approach
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        //First Both slow and fast pointer will point to head
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        //We will loop till fast pointer is not NULL
+        while(fast!=NULL){
+            //Move fast one step
+            fast = fast->next;
+            //then chek weathe rthe fast can move one more step or not if yes then move slow one step and fast one step
+            if(fast!= NULL){
+                fast = fast -> next;
+                slow = slow->next;
+            }
+        }
+        return slow;
+    }
+};
+
+//Find Palindrome in Linked List Leetcode 234
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* middle(ListNode* head){
+        ListNode* fast = head;
+        ListNode* slow = head;
+
+        while(fast->next != NULL){
+            fast = fast->next;
+            if(fast->next != NULL){
+                fast = fast->next;
+                slow = slow->next;
+            }
+        }
+        return slow;
+    }  
+    
+    void reverse(ListNode*& head2){
+        ListNode* curr = head2;
+        ListNode* prev = NULL;
+        while(curr!=NULL){
+        ListNode* nextptr = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nextptr;
+        }
+        head2 = prev;
+    }
+
+    bool compareList(ListNode* head1,ListNode* head2){
+        while(head1 != NULL && head2 != NULL){
+            if(head1->val != head2->val){
+                return false;
+            }
+            else{
+                head1 = head1->next;
+                head2 = head2->next; 
+            }
+    }
+    return true;
+}
+    bool isPalindrome(ListNode* head) {
+        //Find middle
+        ListNode* middlelist = middle(head);
+
+        //Break in two parts
+        ListNode* head2 = middlelist->next;
+        middlelist->next = NULL;
+
+
+        //Reverse Second 
+        reverse(head2);
+        //compare 
+       return compareList(head,head2);
+    }
+};
