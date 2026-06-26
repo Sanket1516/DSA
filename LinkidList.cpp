@@ -741,3 +741,149 @@ public:
        return compareList(head,head2);
     }
 };
+
+//Find the Cycle in a LL LEETCODE 141
+
+//Using MAPS
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        map <ListNode*,bool> table;
+        ListNode* temp = head;
+        while(temp!=NULL){
+            if(table[temp]==false){
+                table[temp] = true;
+            }
+            else{
+                return true;
+            }
+            temp = temp->next;
+        }
+        return false;
+    }
+};
+
+//Using the fast and slow pointer approach
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while(fast != NULL){
+            fast = fast->next;
+            if(fast!=NULL){
+                fast = fast->next;
+                slow = slow->next;
+            }
+            if(fast == slow){
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+//linkid list cycle 2 Leetcode 142
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while(fast!=NULL){
+            fast = fast->next;
+            if(fast != NULL){
+                fast = fast->next;
+                slow = slow->next;
+            }
+
+            if(fast == slow){
+                break;
+            }
+        }
+
+        //If no Cycle is present then return NULL
+        if(fast == NULL){
+            return NULL;
+        }
+
+        //If Cycle is present then move slow to head and move both slow and fast one step at a time till they meet
+        slow = head;
+        while(slow != fast){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
+    }
+};
+
+//letcode add two linked list
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* temp1 = l1;
+        ListNode* temp2 = l2;
+
+        ListNode* dummy = new ListNode(0);
+
+        ListNode* temp3 = dummy;
+
+        int carry = 0;
+        while(temp1!=NULL || temp2!=NULL){
+            int sum = carry;
+
+            if(temp1!=NULL){
+                sum += temp1->val;
+                temp1 = temp1->next;
+            }
+
+            if(temp2!=NULL){
+                sum +=temp2->val;
+                temp2 = temp2->next;
+            }
+
+            carry = sum/10;
+            sum = sum%10;
+
+            ListNode* newnode = new ListNode(sum);
+            temp3->next = newnode;
+            temp3 = newnode;
+        }
+
+        return dummy->next;
+
+    }
+};
