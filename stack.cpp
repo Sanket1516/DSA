@@ -309,3 +309,136 @@ public:
     }
 }
 };
+
+//Check for redundant brackets in an expression
+
+#include <iostream>
+#include <stack>
+using namespace std;
+bool check(string& s){
+    stack<char>st;
+    
+    for(auto i : s){
+        if(i=='(' || i=='*'|| i=='+'|| i=='-'|| i=='/'){
+            st.push(i);
+        }
+        
+        if(i==')'){
+            int operator_count = 0;
+            //Always check weather the stacck is empty or not before accessing the top
+            while(!st.empty()  && st.top()!='('){
+                if(st.top()=='*'|| st.top()=='+'|| st.top()=='-'|| st.top()=='/'){
+                    operator_count ++;
+                }
+                st.pop();
+            }
+            st.pop();
+            if(operator_count == 0){
+                return false;
+            }
+        }
+    }
+        return true;
+}
+
+int main(){
+    string s = "((+))";
+    bool ans = check(s);
+    if(ans){
+        cout<<"valid parenthesid  "<<endl;
+    }
+    else{
+        cout<<"Redundant paretheseis  "<<endl;
+    }
+    return 0;
+}
+
+//Leetcode Min Stack 155
+class MinStack {
+public:
+    vector<pair<int,int>> st;
+
+    MinStack() {
+
+    }
+    
+    void push(int value) {
+        if(st.size()==0){
+            pair<int,int>p;
+            p.first = value;
+            p.second = value;
+            st.push_back(p);
+        }
+        else{
+            pair<int,int>p;
+            p.first = value;
+            p.second = min(st.back().second,value);
+            st.push_back(p);
+        }
+    }
+    
+    void pop() {
+        st.pop_back();
+    }
+    
+    int top() {
+        return st.back().first;
+    }
+    
+    int getMin() {
+        return st.back().second;
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(value);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+
+ //Find next smaller element in the array
+ class Solution {
+  public:
+    vector<int> nextSmallerEle(vector<int>& arr) {
+        
+        stack<int>st;
+        st.push(-1);
+        vector<int>newarr(arr.size());
+        
+        for(int i = arr.size()-1;i>=0;i--){
+            while(st.top()>=arr[i]){
+                st.pop();
+            }
+            newarr[i]=st.top();
+            st.push(arr[i]);
+        }
+        
+        return newarr;
+    }
+};
+
+//find prev smaller element in the array
+class Solution {
+  public:
+    vector<int> prevSmaller(vector<int>& arr) {
+        stack<int>st;
+        st.push(-1);
+        vector<int>newarr(arr.size());
+        
+        for(int i=0;i<arr.size();i++){
+            
+            while(st.top()>=arr[i]){
+                st.pop();
+            }
+            
+            newarr[i] = st.top();
+            st.push(arr[i]);
+        }
+        
+        return newarr;
+    }
+};
+
