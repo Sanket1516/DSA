@@ -1051,3 +1051,26 @@ public:
         return false;
     }
 };
+
+//first unique character in a string Leetcode 387 (Easy) using queue and frequency array
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        vector<int> freq(26, 0);
+        queue<int> q;
+
+        for (int i = 0; i < s.length(); i++) {
+            freq[s[i] - 'a']++;
+            q.push(i);
+
+            while (!q.empty() && freq[s[q.front()] - 'a'] > 1) {
+                q.pop();
+            }
+        }
+
+        if (q.empty())
+            return -1;
+
+        return q.front();
+    }
+};
