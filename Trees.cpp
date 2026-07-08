@@ -358,3 +358,95 @@ public:
         }
     }
 };
+
+//path sum 2 store all the paths in a array
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void solve(TreeNode* root,int targetsum,int sum,vector<int>path,vector<vector<int>>& ans){
+        if(root == NULL){
+            return ;
+        }
+        sum+=root->val;
+        path.push_back(root->val);
+        if(root->left == NULL && root->right == NULL){
+            if(sum == targetsum){
+                ans.push_back(path);
+            }
+            else{
+                return ;
+            }  
+        }
+
+        bool leftans = solve(root->left,targetsum,sum,path,ans);
+        bool rightans = solve(root->right,targetsum,sum,path,ans);  
+    }
+
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        int sum = 0;
+        vector<int>path;
+        vector<vector<int>>ans;
+        solve(root,targetSum,sum,path,ans);
+        return ans;
+    }
+};
+
+//kth ansestor of a binary tree
+/* Definition for Node
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    bool solve(Node* root, int& k ,int node,int& ans){
+        if(root==NULL){
+            return false;
+        }
+        if(root->data == node){
+            return true;
+        }
+
+        
+        bool leftans = solve(root->left,k,node,ans);
+        bool rightans = solve(root->right,k,node,ans);
+        
+        if(leftans || rightans){
+            k--;
+            if(k==0){
+                ans = root->data;
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+    int kthAncestor(Node *root, int k, int node) {
+        int ans = -1;
+        solve(root,k,node,ans);
+        return ans;
+    }
+};
