@@ -450,3 +450,102 @@ class Solution {
         return ans;
     }
 };
+
+//Construct the tree from inorder and preorder traversal
+/* Structure of a Tree Node
+class Node {
+public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+}; */
+
+class Solution {
+  public:
+    Node* solve(map<int,int>& searchele,vector<int>& inorder,vector<int>& preorder,int& size,int& preindex,int instartindex,int inendindex){
+        if(preindex>=size || instartindex>inendindex){
+            return NULL;
+        }
+        int element = preorder[preindex];
+        preindex++;
+        Node* root = new Node(element);
+        int pos = searchele[element];
+        
+        //recursion
+        root->left = solve(searchele,inorder,preorder,size,preindex,instartindex,pos-1);
+        root->right = solve(searchele,inorder,preorder,size,preindex,pos+1,inendindex);
+        
+        return root;
+    }
+    Node *buildTree(vector<int> &inorder, vector<int> &preorder) {
+        // code here
+        int size = inorder.size();
+        int preindex = 0;
+        int instartindex = 0;
+        int inendindex = size-1;
+        //In order to optimize the searching time
+        map<int,int>searchele;
+        for(int i =0;i<size;i++){
+            searchele[inorder[i]] = i;
+        }
+        
+        Node* root = solve(searchele,inorder,preorder,size,preindex,instartindex,inendindex);
+        return root;
+        
+    }
+};
+
+//Construct the tree from inorder and postorder traversal
+/* Node Structure
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int x) {
+        data = x;
+        left = right = nullptr;
+    }
+}; */
+
+class Solution {
+  public:
+    Node* solve(map<int,int>& searchele,vector<int> &inorder,vector<int> &postorder,int size,int& postindex,int instartindex,int inendindex){
+        if(postindex<0 || instartindex>inendindex){
+            return NULL;
+        }
+        int element = postorder[postindex--];
+        Node* root = new Node(element);
+        
+        int pos = searchele[element];
+        
+        //Now recuursion
+        //just here is twist as the postorder is left right root so we have to first call the right and then left
+        //while traversing the postorder array from last to first the right child will come first and then left child so we have to first call the right and then left
+        root->right = solve(searchele,inorder,postorder,size,postindex,pos+1,inendindex);
+        root->left = solve(searchele,inorder,postorder,size,postindex,instartindex,pos-1);
+        
+        return root;
+    }
+    
+    Node *buildTree(vector<int> &inorder, vector<int> &postorder) {
+        // code here
+        int size = inorder.size();
+        map<int,int>searchele;
+        int instartindex = 0;
+        int inendindex = size-1;
+        int postindex = size-1;
+        
+        for(int i =0;i<size;i++){
+            searchele[inorder[i]] = i;
+        }
+        
+        Node* root = solve(searchele,inorder,postorder,size,postindex,instartindex,inendindex);
+        return root;
+    }
+};
