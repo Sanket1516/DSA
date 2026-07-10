@@ -549,3 +549,119 @@ class Solution {
         return root;
     }
 };
+
+//Tree left view
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void solve(vector<int>& ans ,int level ,Node* root){
+        if(root==NULL){
+            return;
+        }
+        if(ans.size()==level){
+            ans.push_back(root->data);
+        }
+        
+        level++;
+        solve(ans,level,root->left);
+        solve(ans,level,root->right);
+    }
+  
+  
+    vector<int> leftView(Node *root) {
+        // code here
+        vector<int>ans;
+        int level = 0;
+        solve(ans,level,root);
+        return ans;
+    }
+};
+
+//Tree right view
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void solve(vector<int>& ans,int level,TreeNode* root){
+        if(root==NULL){
+            return;
+        }
+        if(ans.size()==level){
+            ans.push_back(root->val);
+        }
+        level++;
+
+        solve(ans,level,root->right); //Same just change the right first and then left to get the right view of the tree
+        solve(ans,level,root->left);
+
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int>ans;
+        int level = 0;
+        solve(ans,level,root);
+        return ans;
+    }
+};
+
+//Bottom view of a binary tree
+/*
+Definition for Node
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void solve(vector<int>& ans,Node* root){
+        if(root==NULL){
+            return ;
+        }
+        if(root->left==NULL && root->right==NULL){
+            ans.push_back(root->data);
+        }
+        
+        solve(ans,root->left);
+        solve(ans,root->right);
+    }
+    
+    vector<int> bottomView(Node *root) {
+        // code here
+        vector<int>ans;
+        
+        solve(ans,root);
+        
+        return ans;
+    }
+};
