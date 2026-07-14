@@ -665,3 +665,184 @@ class Solution {
         return ans;
     }
 };
+
+//Top View
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> topView(Node *root) {
+        map<int,int>maptostore;
+        queue<pair<Node*,int>>q;
+        
+        
+        q.push(make_pair(root,0));
+        
+        while(!q.empty()){
+            pair<Node* , int> temp  = q.front();
+            q.pop();
+            
+            Node* node = temp.first;
+            int hd = temp.second;
+            
+            if(maptostore.find(hd) == maptostore.end()){
+                maptostore[hd] = node->data;
+            }
+            
+            if(node->left != NULL){
+                q.push(make_pair(node->left,hd-1));
+            }
+            if(node->right != NULL){
+                q.push(make_pair(node->right,hd+1));
+            }
+        }
+        
+        vector<int>arr;
+        int i = 0;
+        for(auto ele : maptostore){
+            arr.push_back(ele.second);
+        }
+        
+        return arr;
+        
+    }
+};
+
+//Bottom View same just remove the if condition 
+/*
+Definition for Node
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> bottomView(Node *root) {
+        map<int,int>mp;
+        queue<pair<Node*,int>>q;
+        q.push(make_pair(root,0));
+        
+        while(!q.empty()){
+            pair<Node*,int>p = q.front();
+            q.pop();
+            
+            Node* node = p.first;
+            int hd = p.second;
+            
+            mp[hd] = node->data;
+            
+            if(node->left != NULL){
+                q.push(make_pair(node->left,hd-1));
+            }
+            if(node->right != NULL){
+                q.push(make_pair(node->right,hd+1));
+            }
+        }
+        vector<int>arr;
+        for(auto i:mp){
+            arr.push_back(i.second);
+        }
+        return arr;
+    }
+};
+
+//Most IMP Revice repetedly trees boundry Traversal
+/* Node Structure
+class Node {
+  public:
+    int data;
+    Node* left, *right;
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+}; */
+
+class Solution {
+  public:
+    void printleft(Node* root,vector<int>& arr){
+        if(root==NULL){
+            return ;
+        }
+        if(root->left == NULL && root->right == NULL){
+            return ;
+        }
+        arr.push_back(root->data);
+        
+        if(root->left!=NULL){
+            printleft(root->left,arr);
+        }
+        else{
+            printleft(root->right,arr);
+        }
+    }
+    
+    void printleaf(Node* root,vector<int>& arr){
+        if(root == NULL){
+            return;
+        }
+        if(root->left == NULL && root->right == NULL){
+            arr.push_back(root->data);
+        }
+        printleaf(root->left,arr);
+        printleaf(root->right,arr);
+    }
+    
+    void printright(Node* root, vector<int>& arr){
+        if(root==NULL){
+            return;
+        }
+        if(root->left == NULL && root->right == NULL){
+            return;
+        }
+        
+        if(root->right!=NULL){
+            printright(root->right,arr);
+        }
+        else{
+            printright(root->left,arr);
+        }
+        arr.push_back(root->data);
+    }
+    
+    vector<int> boundaryTraversal(Node *root) {
+        // code here
+        vector<int>arr;
+        if(root==NULL){
+            return arr;
+        }
+        
+        if(root->left == NULL && root->right == NULL){
+        arr.push_back(root->data);
+        return arr;
+        }
+        
+        arr.push_back(root->data);
+        printleft(root->left,arr);
+        printleaf(root,arr);
+        printright(root->right,arr);
+        return arr;
+    }
+};
